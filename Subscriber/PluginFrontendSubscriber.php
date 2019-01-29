@@ -65,9 +65,16 @@ class PluginFrontendSubscriber extends AbstractSubscriber
                 )
             );
 
-            $userId = $controller->get('session')->get('sUserId');
+            $userId = $controller->get('session')->get('sUserId');            
+            if (empty($userId)) {
+                return;
+            }
+            
             /** @var Customer $customer */
             $customer = $controller->get('models')->find(Customer::class, $userId);
+            if (empty($customer)) {
+                return;
+            }
 
             /** @var ConfigurationServiceInterface $configurationService */
             $configurationService = $this->container->get('port1_hybrid_auth.configuration_service');
